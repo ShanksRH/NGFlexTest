@@ -1,10 +1,12 @@
 import React from 'react';
+import Button from '../../common/Button';
+import Input from '../../common/Input';
 
 function Name() {
 	return (
 		<>
-			<input placeholder="Имя" />
-			<button>Сохранить</button>
+			<Input placeholder="Имя" />
+			<Button>Сохранить</Button>
 		</>
 	);
 }

@@ -1,9 +1,10 @@
 import React from 'react';
+import Button from '../../common/Button';
 
 function ExportChar() {
 	return (
 		<>
-			<button>Экспортировать/Сохранить</button>
+			<Button>Экспортировать/Сохранить</Button>
 		</>
 	);
 }

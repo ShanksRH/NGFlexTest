@@ -1,13 +1,14 @@
 import React from 'react';
+import {Agility, Block, Charisma, Intellect, Strength} from '../../common';
 
 function BasicStats() {
 	return (
-		<>
-			<div>Сила</div>
-			<div>Ловкость</div>
-			<div>Интеллект</div>
-			<div>Харизма</div>
-		</>
+		<Block direction="column">
+			<Strength>Сила</Strength>
+			<Agility>Ловкость</Agility>
+			<Intellect>Интеллект</Intellect>
+			<Charisma>Харизма</Charisma>
+		</Block>
 	);
 }
 

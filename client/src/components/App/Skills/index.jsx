@@ -1,22 +1,16 @@
 import React from 'react';
+import Skill from '../Skill';
+import {Block} from '../../common';
 
-function Skills() {
+function Skills({skills}) {
 	return (
-		<>
-			<div>Атака</div>
-			<hr />
-			<div>Стелс</div>
-			<div>Стрельба из лука</div>
-			<hr />
-			<div>Обучаемость</div>
-			<div>Выживание</div>
-			<div>Медицина</div>
-			<hr />
-			<div>Запугивание</div>
-			<div>Проницательность</div>
-			<div>Внешний вид</div>
-			<div>Манипулирование</div>
-		</>
+		<Block direction="column">
+			{
+				skills && skills.map(
+					({name, points, type}) => <Skill key={name} name={name} points={points} type={type} />
+				)
+			}
+		</Block>
 	);
 }
 

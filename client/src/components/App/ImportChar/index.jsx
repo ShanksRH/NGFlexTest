@@ -1,9 +1,10 @@
 import React from 'react';
+import Button from '../../common/Button';
 
 function ImportChar() {
 	return (
 		<>
-			<button>Импортировать/Загрузить</button>
+			<Button>Импортировать/Загрузить</Button>
 		</>
 	);
 }
