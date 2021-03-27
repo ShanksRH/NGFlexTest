@@ -1,65 +1,85 @@
 import './App.css';
 import {
 	Avatar,
-	BasicStats,
+	CharCard,
 	ExportChar,
 	ImportChar,
 	Name,
-	OtherStats,
+	Skill,
 	Skills
 } from '../../components/App';
-import {Agility, Block, Charisma, Intellect, Strength} from '../../components/common';
+import {Block, Header, Label} from '../../components/common';
+
+const basicStats = [
+	{name: 'Сила', points: 1, type: 'strength'},
+	{name: 'Ловкость', points: 1, type: 'agility'},
+	{name: 'Интеллект', points: 1, type: 'intellect'},
+	{name: 'Харизма', points: 1, type: 'charisma'}
+];
+
+const otherStats = [
+	{name: 'Жизненная сила', points: 1, type: 'strength'},
+	{name: 'Уклонение', points: 1, type: 'agility'},
+	{name: 'Энергичность', points: 1, type: 'intellect'}
+];
+
 
 const skills = {
 	agility: [
-		{name: 'Стелс', points: 1, type: 'Agility'},
-		{name: 'Стрельба из лука', points: 1}
+		{name: 'Стелс', points: 1, type: 'agility'},
+		{name: 'Стрельба из лука', points: 1, type: 'agility'}
 	],
 	charisma: [
-		{name: 'Запугивание', points: 1},
-		{name: 'Проницательность', points: 1},
-		{name: 'Внешний вид', points: 1},
-		{name: 'Манипулирование', points: 1}
+		{name: 'Запугивание', points: 1, type: 'charisma'},
+		{name: 'Проницательность', points: 1, type: 'charisma'},
+		{name: 'Внешний вид', points: 1, type: 'charisma'},
+		{name: 'Манипулирование', points: 1, type: 'charisma'}
 	],
 	intellect: [
-		{name: 'Обучаемость', points: 1},
-		{name: 'Выживание', points: 1},
-		{name: 'Медицина', points: 1}
+		{name: 'Обучаемость', points: 1, type: 'intellect'},
+		{name: 'Выживание', points: 1, type: 'intellect'},
+		{name: 'Медицина', points: 1, type: 'intellect'}
 	],
-	strength: [{name: 'Атака', points: 1}]
+	strength: [{name: 'Атака', points: 1, type: 'strength'}]
 }
 
 function App() {
 	return (
 		<div className="App">
-			<Name />
-			<Block direction="row">
-				<Avatar />
-				<Block direction="column">
-					<BasicStats />
-					<OtherStats />
+			<Header>
+				Редактор персонажа
+			</Header>
+			<main>
+			<CharCard>
+				<Name />
+				<Block direction="row">
+					<Avatar src="/Pandaman.jpg" />
+					<Block direction="column">
+						<Block direction="column">
+							<Label>Базовые параметры:</Label>
+							<Skills skills={basicStats} />
+						</Block>
+						<Block direction="column">
+							<Label>Дополнительные параметры:</Label>
+							<Skills skills={otherStats} />
+						</Block>
+					</Block>
 				</Block>
-			</Block>
-			<Block direction="row">
-				<Block direction="column">
-					<Strength>
+				<Label>Навыки:</Label>
+				<Block direction="row">
+					<Block direction="column">
 						<Skills skills={skills.strength} />
-					</Strength>
-					<Charisma>
 						<Skills skills={skills.charisma} />
-					</Charisma>
-				</Block>
-				<Block direction="column">
-					<Agility>
+					</Block>
+					<Block direction="column">
 						<Skills skills={skills.agility} />
-					</Agility>
-					<Intellect>
 						<Skills skills={skills.intellect} />
-					</Intellect>
+					</Block>
 				</Block>
-			</Block>
+			</CharCard>
 			<ImportChar />
 			<ExportChar />
+			</main>
 		</div>
 	);
 }

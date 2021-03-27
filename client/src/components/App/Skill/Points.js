@@ -1,5 +1,5 @@
 import styled from 'styled-components';
 
 export default styled.div`
-	background-color: coral;
+	font-size: 18px;
 `;
