@@ -1,11 +1,11 @@
 import './App.css';
+import React from 'react';
 import {
 	Avatar,
 	CharCard,
 	ExportChar,
 	ImportChar,
 	Name,
-	Skill,
 	Skills
 } from '../../components/App';
 import {Block, Header, Label} from '../../components/common';
@@ -43,45 +43,70 @@ const skills = {
 	strength: [{name: 'Атака', points: 1, type: 'strength'}]
 }
 
-function App() {
-	return (
-		<div className="App">
-			<Header>
-				Редактор персонажа
-			</Header>
-			<main>
-			<CharCard>
-				<Name />
-				<Block direction="row">
-					<Avatar src="/Pandaman.jpg" />
-					<Block direction="column">
+class App extends React.Component {
+	state = {
+		editing: false,
+		name: 'Panda'
+	}
+
+	onCancelClick = () => {
+		this.setState({editing: false});
+	}
+
+	onEditClick = () => {
+		this.setState({editing: true});
+	}
+
+	onSaveClick = () => {
+		this.setState({editing: false});
+	}
+
+	render() {
+		return (
+			<div className="App">
+				<Header>
+					Редактор персонажа
+				</Header>
+				<main>
+				<CharCard>
+					<Name
+						editing={this.state.editing}
+						name={this.state.name}
+						onCancelClick={this.onCancelClick}
+						onEditClick={this.onEditClick}
+						onSaveClick={this.onSaveClick}
+					/>
+					<Block direction="row">
+						<Avatar src="/Pandaman.jpg" />
 						<Block direction="column">
-							<Label>Базовые параметры:</Label>
-							<Skills skills={basicStats} />
+							<Block direction="column">
+								<Label>Базовые параметры:</Label>
+								<Skills skills={basicStats} />
+							</Block>
+							<Block direction="column">
+								<Label>Дополнительные параметры:</Label>
+								<Skills skills={otherStats} />
+							</Block>
+						</Block>
+					</Block>
+					<Label>Навыки:</Label>
+					<Block direction="row">
+						<Block direction="column">
+							<Skills skills={skills.strength} />
+							<Skills skills={skills.charisma} />
 						</Block>
 						<Block direction="column">
-							<Label>Дополнительные параметры:</Label>
-							<Skills skills={otherStats} />
+							<Skills skills={skills.agility} />
+							<Skills skills={skills.intellect} />
 						</Block>
 					</Block>
-				</Block>
-				<Label>Навыки:</Label>
-				<Block direction="row">
-					<Block direction="column">
-						<Skills skills={skills.strength} />
-						<Skills skills={skills.charisma} />
-					</Block>
-					<Block direction="column">
-						<Skills skills={skills.agility} />
-						<Skills skills={skills.intellect} />
-					</Block>
-				</Block>
-			</CharCard>
-			<ImportChar />
-			<ExportChar />
-			</main>
-		</div>
-	);
+				</CharCard>
+				<ImportChar />
+				<ExportChar />
+				</main>
+			</div>
+		);
+	}
 }
 
 export default App;
