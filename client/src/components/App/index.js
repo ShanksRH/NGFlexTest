@@ -1,3 +1,4 @@
+export {default as App} from './App';
 export {default as Avatar} from './Avatar';
 export {default as CharCard} from './CharCard';
 export {default as ExportChar} from './ExportChar';

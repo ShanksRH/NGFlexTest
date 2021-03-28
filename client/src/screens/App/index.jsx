@@ -1,6 +1,6 @@
-import './App.css';
 import React from 'react';
 import {
+	App,
 	Avatar,
 	CharCard,
 	ExportChar,
@@ -43,7 +43,7 @@ const skills = {
 	strength: [{name: 'Атака', points: 1, type: 'strength'}]
 }
 
-class App extends React.Component {
+class AppWrapper extends React.Component {
 	state = {
 		editing: false,
 		name: 'Panda'
@@ -63,7 +63,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div className="App">
+			<App>
 				<Header>
 					Редактор персонажа
 				</Header>
@@ -104,9 +104,9 @@ class App extends React.Component {
 				<ImportChar />
 				<ExportChar />
 				</main>
-			</div>
+			</App>
 		);
 	}
 }
 
-export default App;
+export default AppWrapper;
