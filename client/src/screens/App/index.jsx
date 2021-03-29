@@ -4,11 +4,12 @@ import {
 	Avatar,
 	CharCard,
 	ExportChar,
+	Header,
 	ImportChar,
 	Name,
 	Skills
 } from '../../components/App';
-import {Block, Header, Label} from '../../components/common';
+import {Block, Label} from '../../components/common';
 
 const basicStats = [
 	{name: 'Сила', points: 1, type: 'strength'},

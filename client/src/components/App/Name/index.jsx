@@ -2,19 +2,19 @@ import React from 'react';
 import Container from './Container';
 import Input from './Input';
 import Text from './Text';
-import {Button} from '../../common';
+import {IconButton} from '../../common';
 
 function Name({editing, name, onCancelClick, onEditClick, onSaveClick}) {
 	return (editing ? (
 		<Container>
 			<Input defaultValue={name}/>
-			<Button onClick={onCancelClick}>Отменить</Button>
-			<Button onClick={onSaveClick}>Сохранить</Button>
+			<IconButton onClick={onSaveClick} icon="save" title="Сохранить" />
+			<IconButton onClick={onCancelClick} icon="cancel" title="Отменить" />
 		</Container>
 	) : (
 		<Container>
 			<Text>{name}</Text>
-			<Button onClick={onEditClick}>Редактировать</Button>
+			<IconButton onClick={onEditClick} icon="edit" title="Редактировать" />
 		</Container>
 	));
 }

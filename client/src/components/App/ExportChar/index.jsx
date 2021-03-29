@@ -1,11 +1,9 @@
 import React from 'react';
-import Button from '../../common/Button';
+import {IconButton} from '../../common';
 
 function ExportChar() {
 	return (
-		<>
-			<Button>Экспортировать/Сохранить</Button>
-		</>
+		<IconButton icon="export" />
 	);
 }
 
