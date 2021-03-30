@@ -1,9 +1,9 @@
 import React from 'react';
-import Skill from '../Skill';
+import Skill from './Skill';
 
-function Skills({skills}) {
-	return skills && skills.map(({name, points, type}) => (
-		<Skill key={name} name={name} points={points} type={type} />
+function Skills({skills, ...props}) {
+	return skills && skills.map((skill) => (
+		<Skill key={skill.name} {...skill} {...props} />
 	));
 }
 

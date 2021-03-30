@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {colors} from '../../../constants';
+import {colors} from '../../../../constants';
 
 function getColor({type}) {
 	return colors[type];

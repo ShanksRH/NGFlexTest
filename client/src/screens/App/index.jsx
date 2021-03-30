@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import React from 'react';
 import {
 	App,
 	Avatar,
+	Buttons,
 	CharCard,
 	ExportChar,
 	Header,
@@ -9,45 +11,79 @@ import {
 	Name,
 	Skills
 } from '../../components/App';
-import {Block, Label} from '../../components/common';
+import {Block, IconButton, Label} from '../../components/common';
+import {restoreChar} from '../../helpers';
+
+const defaultStatValue = 1;
+
+const charBasicStats = {
+	agility: defaultStatValue,
+	charisma: defaultStatValue,
+	intellect: defaultStatValue,
+	strength: defaultStatValue
+};
+
+const charAllStats = restoreChar(charBasicStats);
 
 const basicStats = [
-	{name: 'Сила', points: 1, type: 'strength'},
-	{name: 'Ловкость', points: 1, type: 'agility'},
-	{name: 'Интеллект', points: 1, type: 'intellect'},
-	{name: 'Харизма', points: 1, type: 'charisma'}
+	{name: 'Сила', points: charAllStats.strength, type: 'strength'},
+	{name: 'Ловкость', points: charAllStats.agility, type: 'agility'},
+	{name: 'Интеллект', points: charAllStats.intellect, type: 'intellect'},
+	{name: 'Харизма', points: charAllStats.charisma, type: 'charisma'}
 ];
 
 const otherStats = [
-	{name: 'Жизненная сила', points: 1, type: 'strength'},
-	{name: 'Уклонение', points: 1, type: 'agility'},
-	{name: 'Энергичность', points: 1, type: 'intellect'}
+	{name: 'Жизненная сила', points: charAllStats.vitality, type: 'strength'},
+	{name: 'Уклонение', points: charAllStats.evasion, type: 'agility'},
+	{name: 'Энергичность', points: charAllStats.energy, type: 'intellect'}
 ];
-
 
 const skills = {
 	agility: [
-		{name: 'Стелс', points: 1, type: 'agility'},
-		{name: 'Стрельба из лука', points: 1, type: 'agility'}
+		{name: 'Стелс', points: defaultStatValue, type: 'agility'},
+		{name: 'Стрельба из лука', points: defaultStatValue, type: 'agility'}
 	],
 	charisma: [
-		{name: 'Запугивание', points: 1, type: 'charisma'},
-		{name: 'Проницательность', points: 1, type: 'charisma'},
-		{name: 'Внешний вид', points: 1, type: 'charisma'},
-		{name: 'Манипулирование', points: 1, type: 'charisma'}
+		{name: 'Запугивание', points: defaultStatValue, type: 'charisma'},
+		{name: 'Проницательность', points: defaultStatValue, type: 'charisma'},
+		{name: 'Внешний вид', points: defaultStatValue, type: 'charisma'},
+		{name: 'Манипулирование', points: defaultStatValue, type: 'charisma'}
 	],
 	intellect: [
-		{name: 'Обучаемость', points: 1, type: 'intellect'},
-		{name: 'Выживание', points: 1, type: 'intellect'},
-		{name: 'Медицина', points: 1, type: 'intellect'}
+		{name: 'Обучаемость', points: defaultStatValue, type: 'intellect'},
+		{name: 'Выживание', points: defaultStatValue, type: 'intellect'},
+		{name: 'Медицина', points: defaultStatValue, type: 'intellect'}
 	],
-	strength: [{name: 'Атака', points: 1, type: 'strength'}]
+	strength: [{name: 'Атака', points: defaultStatValue, type: 'strength'}]
 }
+
+const character = {
+	basics: basicStats,
+	additionals: otherStats,
+	name: 'Panda',
+	skills: {
+		agility: skills.agility,
+		charisma: skills.charisma,
+		intellect: skills.intellect,
+		strength: skills.strength
+	}
+};
 
 class AppWrapper extends React.Component {
 	state = {
+		character,
 		editing: false,
-		name: 'Panda'
+		editingCharacter: null
+	}
+
+	editCharacterParam = (param, value) => {
+		this.setState((prevState) => {
+			const newState = {...prevState};
+
+			_.set(newState, ['editingCharacter', param], value);
+
+			return newState;
+		})
 	}
 
 	onCancelClick = () => {
@@ -55,11 +91,21 @@ class AppWrapper extends React.Component {
 	}
 
 	onEditClick = () => {
-		this.setState({editing: true});
+		this.setState((prevState) => ({
+			editing: true,
+			editingCharacter: {...prevState.character}
+		}));
+	}
+
+	onParameterChange = (parameter, value) => {
+		this.editCharacterParam(parameter, value);
 	}
 
 	onSaveClick = () => {
-		this.setState({editing: false});
+		this.setState((prevState) => ({
+			character: {...prevState.editingCharacter},
+			editing: false
+		}));
 	}
 
 	render() {
@@ -70,35 +116,74 @@ class AppWrapper extends React.Component {
 				</Header>
 				<main>
 				<CharCard>
-					<Name
-						editing={this.state.editing}
-						name={this.state.name}
-						onCancelClick={this.onCancelClick}
-						onEditClick={this.onEditClick}
-						onSaveClick={this.onSaveClick}
-					/>
+					<Block direction="row">
+						<Name
+							editing={this.state.editing}
+							name={this.state.character.name}
+							onChange={_.partial(this.onParameterChange, 'name')}
+						/>
+						<Buttons>
+							{
+								this.state.editing ? (
+									<>
+										<IconButton
+											icon="save"
+											title="Сохранить"
+											onClick={this.onSaveClick}
+										/>
+										<IconButton
+											icon="cancel"
+											title="Отменить"
+											onClick={this.onCancelClick}
+										/>
+									</>
+								) : (
+									<IconButton
+										onClick={this.onEditClick}
+										icon="edit"
+										title="Редактировать"
+									/>
+								)
+							}
+						</Buttons>
+					</Block>
 					<Block direction="row">
 						<Avatar src="/Pandaman.jpg" />
 						<Block direction="column">
 							<Block direction="column">
 								<Label>Базовые параметры:</Label>
-								<Skills skills={basicStats} />
+								<Skills
+									skills={this.state.character.basics}
+									editing={this.state.editing}
+								/>
 							</Block>
 							<Block direction="column">
 								<Label>Дополнительные параметры:</Label>
-								<Skills skills={otherStats} />
+								<Skills skills={this.state.character.additionals} />
 							</Block>
 						</Block>
 					</Block>
 					<Label>Навыки:</Label>
 					<Block direction="row">
 						<Block direction="column">
-							<Skills skills={skills.strength} />
-							<Skills skills={skills.charisma} />
+							<Skills
+								skills={this.state.character.skills.strength}
+								editing={this.state.editing}
+							/>
+							<Skills
+								skills={this.state.character.skills.charisma}
+								editing={this.state.editing}
+							/>
 						</Block>
 						<Block direction="column">
-							<Skills skills={skills.agility} />
-							<Skills skills={skills.intellect} />
+							<Skills
+								skills={this.state.character.skills.agility}
+								editing={this.state.editing}
+							/>
+							<Skills
+								skills={this.state.character.skills.intellect}
+								editing={this.state.editing}
+							/>
 						</Block>
 					</Block>
 				</CharCard>
