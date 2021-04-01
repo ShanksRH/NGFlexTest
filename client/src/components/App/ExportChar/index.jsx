@@ -1,10 +1,14 @@
 import React from 'react';
 import {IconButton} from '../../common';
 
-function ExportChar() {
+function ImportChar({onClick}) {
 	return (
-		<IconButton icon="export" />
+		<IconButton
+			icon="export"
+			title="Сохранить файл"
+			onClick={onClick}
+		/>
 	);
 }
 
-export default ExportChar;
+export default ImportChar;

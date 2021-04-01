@@ -4,7 +4,7 @@ import Input from './Input';
 import Name from './Name';
 import Points from './Points';
 
-class Skill extends React.Component {
+class Parameter extends React.Component {
 	onChange = ({target}) => {
 		this.props.onChange(Number(target.value));
 	}
@@ -31,4 +31,4 @@ class Skill extends React.Component {
 	}
 }
 
-export default Skill;
+export default Parameter;
