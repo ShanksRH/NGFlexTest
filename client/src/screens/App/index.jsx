@@ -28,16 +28,27 @@ const character = {
 };
 
 recalculateCharacter(character);
-console.log({character})
 
 class AppWrapper extends React.Component {
 	state = {
 		character,
+		fileDownloadUrl: '',
 		editing: false,
 		editingCharacter: {...character}
 	}
 
-	updateCharacter = (param, value, needRecalculation) => {
+	openFile = ({target}) => {
+		const fileObj = target.files[0];
+		const reader = new FileReader();
+
+		reader.onload = ({target}) => {
+			this.setState({character: JSON.parse(target.result)})
+		}
+
+		reader.readAsText(fileObj);
+	}
+
+	editCharacter = (param, value, needRecalculation) => {
 		this.setState((prevState) => {
 			const newState = {...prevState};
 
@@ -58,25 +69,47 @@ class AppWrapper extends React.Component {
 	onEditClick = () => {
 		this.setState((prevState) => ({
 			editing: true,
-			editingCharacter: {...prevState.character}
+			editingCharacter: _.cloneDeep(prevState.character)
 		}));
 	}
 
+	onExportClick = (event) => {
+		event.preventDefault();
+
+		const output = JSON.stringify(this.state.character, null, 2);
+		const blob = new Blob([output]);
+		const fileDownloadUrl = URL.createObjectURL(blob);
+
+		this.setState (
+			{fileDownloadUrl: fileDownloadUrl},
+			() => {
+				this.downloadFile.click();
+				URL.revokeObjectURL(fileDownloadUrl);
+				this.setState({fileDownloadUrl: ''})
+			}
+		);
+	}
+
+	onImportClick = (event) => {
+		event.preventDefault();
+	  	this.uploadFile.click();
+	}
+
 	onNameChange = (value) => {
-		this.updateCharacter('name', value);
+		this.editCharacter('name', value);
 	}
 
 	onParameterChange = (parameter, value) => {
-		this.updateCharacter(parameter, value, true);
+		this.editCharacter(parameter, value, true);
 	}
 
 	onSkillChange = (parameter, value) => {
-		this.updateCharacter(`skills.${parameter}`, value, true);
+		this.editCharacter(`skills.${parameter}`, value, true);
 	}
 
 	onSaveClick = () => {
 		this.setState((prevState) => ({
-			character: {...prevState.editingCharacter},
+			character: _.cloneDeep(prevState.editingCharacter),
 			editing: false
 		}));
 	}
@@ -117,8 +150,17 @@ class AppWrapper extends React.Component {
 						onChange={this.onSkillChange}
 					/>
 				</CharCard>
-				<ImportChar />
-				<ExportChar />
+				<ExportChar
+					onClick={this.onExportClick}
+					href={this.state.fileDownloadUrl}
+					linkRef={(e) => this.downloadFile = e}
+
+				/>
+				<ImportChar
+					onChange={this.openFile}
+					onClick={this.onImportClick}
+					inputRef={(e) => this.uploadFile = e}
+				/>
 				</main>
 			</App>
 		);
