@@ -4,6 +4,12 @@ import Input from './Input';
 import Name from './Name';
 
 class Parameter extends React.Component {
+	onKeyPress = (event) => {
+		const keyValue = String.fromCharCode(event.keyCode || event.which);
+
+		if (!/[0-9]/.test(keyValue)) event.preventDefault();
+	}
+
 	onChange = ({target}) => {
 		this.props.onChange(Number(target.value));
 	}
@@ -19,6 +25,7 @@ class Parameter extends React.Component {
 						<Input
 							defaultValue={points}
 							maxLength={2}
+							onKeyPress={this.onKeyPress}
 							onChange={this.onChange}
 						/>
 					) : points

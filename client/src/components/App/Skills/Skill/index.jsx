@@ -1,13 +1,13 @@
 import React from 'react';
 import Container from './Container';
-import Input from './Input';
 import Name from './Name';
 import Points from './Points';
+import Select from './Select';
 import {skillLevels} from '../../../../constants';
 
 class Skill extends React.Component {
 	onChange = ({target}) => {
-		this.props.onChange(Number(target.value));
+		this.props.onChange(target.selectedIndex);
 	}
 
 	render() {
@@ -18,11 +18,13 @@ class Skill extends React.Component {
 				<Name>{name}:</Name>
 				{
 					editing ? (
-						<Input
-							defaultValue={level}
-							maxLength={2}
-							onChange={this.onChange}
-						/>
+						<Select onChange={this.onChange}>
+							{
+								skillLevels.map((level) => (
+									<option key={level}>{level}</option>
+								))
+							}
+						</Select>
 					) : (
 						<Points>{skillLevels[level]}</Points>
 					)

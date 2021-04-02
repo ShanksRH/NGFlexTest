@@ -49,15 +49,11 @@ class AppWrapper extends React.Component {
 		reader.readAsText(fileObj);
 	}
 
-	editCharacter = (param, value, needRecalculation) => {
+	editCharacter = (param, value) => {
 		this.setState((prevState) => {
 			const newState = {...prevState};
 
 			_.set(newState, `editingCharacter.${param}`, value);
-
-			if (needRecalculation) {
-				recalculateCharacter(newState.editingCharacter);
-			}
 
 			return newState;
 		})
@@ -101,18 +97,22 @@ class AppWrapper extends React.Component {
 	}
 
 	onParameterChange = (parameter, value) => {
-		this.editCharacter(parameter, value, true);
+		this.editCharacter(parameter, value);
 	}
 
 	onSkillChange = (parameter, value) => {
-		this.editCharacter(`skills.${parameter}`, value, true);
+		this.editCharacter(`skills.${parameter}`, value);
 	}
 
 	onSaveClick = () => {
-		this.setState((prevState) => ({
-			character: _.cloneDeep(prevState.editingCharacter),
-			editing: false
-		}));
+		this.setState((prevState) => {
+			recalculateCharacter(prevState.editingCharacter);
+
+			return {
+				character: _.cloneDeep(prevState.editingCharacter),
+				editing: false
+			};
+		});
 	}
 
 	render() {
