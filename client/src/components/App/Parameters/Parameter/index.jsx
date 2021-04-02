@@ -2,7 +2,6 @@ import React from 'react';
 import Container from './Container';
 import Input from './Input';
 import Name from './Name';
-import Points from './Points';
 
 class Parameter extends React.Component {
 	onChange = ({target}) => {
@@ -22,9 +21,7 @@ class Parameter extends React.Component {
 							maxLength={2}
 							onChange={this.onChange}
 						/>
-					) : (
-						<Points>{points}</Points>
-					)
+					) : points
 				}
 			</Container>
 		);

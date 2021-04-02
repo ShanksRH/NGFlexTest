@@ -13,7 +13,7 @@ function List({skills, type, editing, onChange}) {
 					<Skill
 						key={index}
 						name={typeSkills[skill]}
-						points={skills[skill]}
+						level={skills[skill]}
 						type={type}
 						editing={editing}
 						onChange={(value) => onChange(`${type}.${skill}`, value)}

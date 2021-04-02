@@ -5,6 +5,7 @@ export {default as CharCard} from './CharCard';
 export {default as ExportChar} from './ExportChar';
 export {default as Header} from './Header';
 export {default as ImportChar} from './ImportChar';
+export {default as Main} from './Main';
 export {default as Name} from './Name';
 export {default as Parameters} from './Parameters';
 export {default as Skills} from './Skills';

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export default styled.input`
-	width: 350px;
+	max-width: 240px;
 	padding: 5px;
 	font-size: 22px;
 `;

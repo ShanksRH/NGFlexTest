@@ -3,6 +3,7 @@ import Container from './Container';
 import Input from './Input';
 import Name from './Name';
 import Points from './Points';
+import {skillLevels} from '../../../../constants';
 
 class Skill extends React.Component {
 	onChange = ({target}) => {
@@ -10,7 +11,7 @@ class Skill extends React.Component {
 	}
 
 	render() {
-		const {name, points, type, editing} = this.props;
+		const {name, level, type, editing} = this.props;
 
 		return (
 			<Container type={type}>
@@ -18,12 +19,12 @@ class Skill extends React.Component {
 				{
 					editing ? (
 						<Input
-							defaultValue={points}
+							defaultValue={level}
 							maxLength={2}
 							onChange={this.onChange}
 						/>
 					) : (
-						<Points>{points}</Points>
+						<Points>{skillLevels[level]}</Points>
 					)
 				}
 			</Container>

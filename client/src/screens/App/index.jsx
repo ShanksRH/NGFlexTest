@@ -8,6 +8,7 @@ import {
 	ExportChar,
 	Header,
 	ImportChar,
+	Main,
 	Name,
 	Parameters,
 	Skills
@@ -120,48 +121,48 @@ class AppWrapper extends React.Component {
 				<Header>
 					Редактор персонажа
 				</Header>
-				<main>
-				<CharCard>
-					<Block direction="row">
-						<Name
+				<Main>
+					<CharCard>
+						<Block direction="row">
+							<Name
+								editing={this.state.editing}
+								name={this.state.character.name}
+								onChange={this.onNameChange}
+							/>
+							<Buttons
+								editing={this.state.editing}
+								onCancelClick={this.onCancelClick}
+								onEditClick={this.onEditClick}
+								onSaveClick={this.onSaveClick}
+							/>
+						</Block>
+						<Block direction="row">
+							<Avatar src="/Pandaman.jpg" />
+							<Parameters
+								additionals={this.state.character.additionals}
+								basics={this.state.character.basics}
+								editing={this.state.editing}
+								onChange={this.onParameterChange}
+							/>
+						</Block>
+						<Skills
+							{...this.state.character.skills}
 							editing={this.state.editing}
-							name={this.state.character.name}
-							onChange={this.onNameChange}
+							onChange={this.onSkillChange}
 						/>
-						<Buttons
-							editing={this.state.editing}
-							onCancelClick={this.onCancelClick}
-							onEditClick={this.onEditClick}
-							onSaveClick={this.onSaveClick}
-						/>
-					</Block>
-					<Block direction="row">
-						<Avatar src="/Pandaman.jpg" />
-						<Parameters
-							additionals={this.state.character.additionals}
-							basics={this.state.character.basics}
-							editing={this.state.editing}
-							onChange={this.onParameterChange}
-						/>
-					</Block>
-					<Skills
-						{...this.state.character.skills}
-						editing={this.state.editing}
-						onChange={this.onSkillChange}
-					/>
-				</CharCard>
-				<ExportChar
-					onClick={this.onExportClick}
-					href={this.state.fileDownloadUrl}
-					linkRef={(e) => this.downloadFile = e}
+					</CharCard>
+					<ExportChar
+						onClick={this.onExportClick}
+						href={this.state.fileDownloadUrl}
+						linkRef={(e) => this.downloadFile = e}
 
-				/>
-				<ImportChar
-					onChange={this.openFile}
-					onClick={this.onImportClick}
-					inputRef={(e) => this.uploadFile = e}
-				/>
-				</main>
+					/>
+					<ImportChar
+						onChange={this.openFile}
+						onClick={this.onImportClick}
+						inputRef={(e) => this.uploadFile = e}
+					/>
+				</Main>
 			</App>
 		);
 	}
