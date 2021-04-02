@@ -18,10 +18,18 @@ class Skill extends React.Component {
 				<Name>{name}:</Name>
 				{
 					editing ? (
-						<Select onChange={this.onChange}>
+						<Select
+							defaultValue={skillLevels[level]}
+							onChange={this.onChange}
+						>
 							{
-								skillLevels.map((level) => (
-									<option key={level}>{level}</option>
+								skillLevels.map((skillLevel) => (
+									<option
+										key={skillLevel}
+										value={skillLevel}
+									>
+										{skillLevel}
+									</option>
 								))
 							}
 						</Select>
